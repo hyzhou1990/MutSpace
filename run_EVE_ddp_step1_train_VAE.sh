@@ -9,33 +9,33 @@ export model_parameters_location='/home/gpu7/Fat-48T/Work/MutSpace2/EVE/EVE/defa
 export training_logs_location='/home/gpu7/Fat-48T/Work/MutSpace2/RSV_EVE/logs/'
 export protein_index=0
 
-# 检测可用的GPU数量
+# Detect available GPU count
 num_gpus=$(nvidia-smi --query-gpu=name --format=csv,noheader 2>/dev/null | wc -l)
 if [ $num_gpus -eq 0 ]; then
-    # 如果nvidia-smi命令失败，使用PyTorch检测GPU
+    # If nvidia-smi command fails, use PyTorch to detect GPUs
     num_gpus=$(python -c "import torch; print(torch.cuda.device_count())")
 fi
-echo "检测到 $num_gpus 个GPU"
+echo "Detected $num_gpus GPUs"
 
-# 设置性能相关的环境变量
-export CUDA_LAUNCH_BLOCKING=0  # 提高CUDA启动性能
-export NCCL_DEBUG=INFO  # 打印NCCL调试信息
-export NCCL_SOCKET_IFNAME=^lo  # 避免使用环回接口
-export NCCL_P2P_DISABLE=0  # 启用P2P通信
+# Set performance-related environment variables
+export CUDA_LAUNCH_BLOCKING=0  # Improve CUDA launch performance
+export NCCL_DEBUG=INFO  # Print NCCL debug information
+export NCCL_SOCKET_IFNAME=^lo  # Avoid using loopback interface
+export NCCL_P2P_DISABLE=0  # Enable P2P communication
 
-# 设置CPU线程数以避免过度线程竞争
+# Set CPU thread count to avoid excessive thread contention
 export MKL_NUM_THREADS=8
 export OMP_NUM_THREADS=8
 export OPENBLAS_NUM_THREADS=8
 
-# 创建必要的目录
+# Create necessary directories
 mkdir -p ${VAE_checkpoint_location}
 mkdir -p ${training_logs_location}
 mkdir -p ${MSA_weights_location}
 
-echo "使用优化的DDP训练脚本，在所有可用GPU上进行训练..."
+echo "Using optimized DDP training script for training on all available GPUs..."
 
-# 添加EVE目录到Python路径
+# Add EVE directory to Python path
 export PYTHONPATH=$PYTHONPATH:/home/gpu7/Fat-48T/Work/MutSpace2/EVE
 
 cd /home/gpu7/Fat-48T/Work/MutSpace2/RSV_EVE

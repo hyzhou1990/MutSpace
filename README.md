@@ -1,50 +1,50 @@
 # RSV_EVE
 
-呼吸道合胞病毒（RSV）的进化变异效应（EVE）评分计算工具。
+A computational framework for calculating Evolutionary Variant Effect (EVE) scores for Respiratory Syncytial Virus (RSV) proteins.
 
-## 项目概述
+## Project Overview
 
-本项目基于EVE（Evolutionary model of Variant Effect）框架，用于分析RSV蛋白质的突变效应。通过深度学习和统计建模，计算各种氨基酸突变的进化保守性得分，评估其对蛋白质功能的潜在影响。
+This project implements the EVE (Evolutionary model of Variant Effect) framework to analyze mutational effects in RSV proteins. Through deep learning and statistical modeling approaches, we compute evolutionary conservation scores for amino acid substitutions to assess their potential impact on protein function.
 
-## 运行流程
+## Workflow
 
-整个分析流程分为三个主要步骤：
+The analysis pipeline consists of three main steps:
 
-### 1. 训练VAE模型
+### 1. Training the VAE Model
 
 ```bash
 chmod +x run_EVE_ddp_step1_train_VAE.sh
 ./run_EVE_ddp_step1_train_VAE.sh
 ```
 
-该步骤使用分布式数据并行（DDP）在多个GPU上训练变分自编码器（VAE）模型，学习RSV蛋白质序列的潜在表示。
+This step uses Distributed Data Parallel (DDP) to train a Variational Autoencoder (VAE) model across multiple GPUs, learning latent representations of RSV protein sequences.
 
-### 2. 计算进化指数
+### 2. Computing Evolutionary Indices
 
 ```bash
 chmod +x run_EVE_ddp_step2_compute_evol_indices.sh
 ./run_EVE_ddp_step2_compute_evol_indices.sh
 ```
 
-该步骤使用训练好的VAE模型计算每个可能突变的进化指数。
+This step utilizes the trained VAE model to compute evolutionary indices for all possible mutations.
 
-### 3. 计算EVE分数
+### 3. Calculating EVE Scores
 
 ```bash
 chmod +x run_EVE_step3_compute_scores.sh
 ./run_EVE_step3_compute_scores.sh
 ```
 
-该步骤训练高斯混合模型（GMM）并计算每个突变的EVE分数，结果保存在`results/EVE_scores/`目录中。
+This step trains Gaussian Mixture Models (GMMs) and calculates EVE scores for each mutation. Results are stored in the `results/EVE_scores/` directory.
 
-## 输出文件
+## Output Files
 
-主要输出文件位于：
-- VAE模型参数：`results/VAE_parameters/`
-- 进化指数：`results/evol_indices/`
-- EVE分数：`results/EVE_scores/all_EVE_scores_RSV_F_model.csv`
+Primary output files are located at:
+- VAE model parameters: `results/VAE_parameters/`
+- Evolutionary indices: `results/evol_indices/`
+- EVE scores: `results/EVE_scores/all_EVE_scores_RSV_F_model.csv`
 
-## 依赖项
+## Dependencies
 
 - Python 3.6+
 - PyTorch 1.7+
@@ -53,17 +53,17 @@ chmod +x run_EVE_step3_compute_scores.sh
 - numpy
 - matplotlib
 
-## 目录结构
+## Directory Structure
 
-- `MSA/`: 多序列比对文件
-- `mappings/`: 蛋白质映射文件
-- `results/`: 结果输出目录
-- `utils/`: 工具函数
-- `*.py`: 主要脚本文件
-- `run_*.sh`: 运行脚本
+- `MSA/`: Multiple sequence alignment files
+- `mappings/`: Protein mapping files
+- `results/`: Output directory for all results
+- `utils/`: Utility functions
+- `*.py`: Main script files
+- `run_*.sh`: Execution scripts
 
-## 注意事项
+## Notes
 
-- 确保有足够的GPU内存来训练VAE模型
-- 运行时间可能较长，尤其是在处理大型MSA文件时
-- 所有步骤都提供详细的日志输出，保存在当前目录下 
+- Ensure sufficient GPU memory for VAE model training
+- Execution time may be substantial, especially when processing large MSA files
+- All steps provide detailed logging output, saved in the current directory 

@@ -6,7 +6,7 @@ export protein_list='/home/gpu7/Fat-48T/Work/MutSpace2/RSV_EVE/mappings/rsv_mapp
 export output_eve_scores_location='/home/gpu7/Fat-48T/Work/MutSpace2/RSV_EVE/results/EVE_scores'
 export output_eve_scores_filename_suffix='RSV_F_model'
 
-# 为RSV_F蛋白创建GMM模型参数位置
+# Create GMM model parameter location for RSV_F protein
 mkdir -p /home/gpu7/Fat-48T/Work/MutSpace2/RSV_EVE/results/GMM_parameters/
 export GMM_parameter_location='/home/gpu7/Fat-48T/Work/MutSpace2/RSV_EVE/results/GMM_parameters'
 export GMM_parameter_filename_suffix='RSV_F_model'
@@ -15,7 +15,7 @@ export plot_location='/home/gpu7/Fat-48T/Work/MutSpace2/RSV_EVE/results'
 
 cd /home/gpu7/Fat-48T/Work/MutSpace2/RSV_EVE
 
-echo "开始计算EVE分数..."
+echo "Starting EVE score calculation..."
 python train_GMM_and_compute_EVE_scores.py \
     --input_evol_indices_location ${input_evol_indices_location} \
     --input_evol_indices_filename_suffix ${input_evol_indices_filename_suffix} \
@@ -29,4 +29,4 @@ python train_GMM_and_compute_EVE_scores.py \
     --plot_location ${plot_location} \
     --verbose 
 
-echo "EVE分数计算完成!" 
+echo "EVE score calculation completed!" 
